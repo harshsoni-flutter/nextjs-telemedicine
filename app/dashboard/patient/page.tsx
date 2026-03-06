@@ -27,7 +27,7 @@ export default async function PatientDashboardPage() {
 
   return (
     <div className="min-h-screen bg-[#fafaf8]">
-      <DashboardNav userEmail={user.email} role="patient" />
+      <DashboardNav userEmail={user.email ?? ''} role="patient" />
 
       <main className="mx-auto w-full max-w-7xl px-6 py-8 sm:px-8 lg:px-12 xl:px-16 2xl:px-24">
         {/* Welcome Banner */}

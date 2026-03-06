@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { useForm, type Resolver } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { completeProviderOnboarding } from './actions';
@@ -36,7 +36,7 @@ export default function OnboardingProviderPage() {
     reset,
     setError,
     formState: { errors, isSubmitting },
-  } = useForm<FormData>({ resolver: zodResolver(schema) });
+  } = useForm<FormData>({ resolver: zodResolver(schema) as Resolver<FormData> });
 
   async function onSubmit(data: FormData) {
     const formData = new FormData();

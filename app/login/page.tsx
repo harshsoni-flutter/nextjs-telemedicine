@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { signInWithPassword, signInWithGoogle, resendConfirmationEmail } from './actions';
+import { signInWithPassword, signInWithGoogleFormAction, resendConfirmationEmail } from './actions';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -193,7 +193,7 @@ export default function LoginPage() {
               <span className="bg-white px-2">Or continue with</span>
             </div>
           </div>
-          <form action={signInWithGoogle}>
+          <form action={signInWithGoogleFormAction}>
             <GoogleSubmitButton />
           </form>
         </CardContent>

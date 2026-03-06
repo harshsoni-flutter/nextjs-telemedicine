@@ -1,5 +1,6 @@
 'use server';
 
+import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { ensureUserAndProfile } from '@/lib/ensure-user';
 
@@ -37,4 +38,9 @@ export async function signInWithGoogle() {
     return { error: error.message };
   }
   if (data.url) redirect(data.url);
+}
+
+/** Wrapper for use as form action (must return void). */
+export async function signInWithGoogleFormAction(): Promise<void> {
+  await signInWithGoogle();
 }

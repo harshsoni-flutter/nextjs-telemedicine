@@ -9,7 +9,7 @@ import { AvailabilityManager } from '@/components/provider/availability-manager'
 import { DashboardNav } from '@/components/dashboard/dashboard-nav';
 
 export default async function AvailabilityPage() {
-  const { user } = await requireAuth('provider');
+  const { user } = await requireAuth();
   const [slots, settings, blockedTime] = await Promise.all([
     getProviderAvailability(user.id),
     getProviderSettings(user.id),
@@ -18,7 +18,7 @@ export default async function AvailabilityPage() {
 
   return (
     <div className="min-h-screen bg-[#fafaf8]">
-      <DashboardNav userEmail={user.email} role="provider" />
+      <DashboardNav userEmail={user.email ?? ''} role="provider" />
 
       <main className="mx-auto w-full max-w-4xl px-6 py-8 sm:px-8 lg:px-12">
         {/* Back Button */}

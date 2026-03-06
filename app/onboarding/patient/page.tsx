@@ -29,9 +29,8 @@ const step2Schema = z.object({
   phone: z.string().optional(),
 });
 
-type Step1 = z.infer<typeof step1Schema>;
-type Step2 = z.infer<typeof step2Schema>;
-type FormData = Step1 & Step2;
+const formSchema = step1Schema.merge(step2Schema);
+type FormData = z.infer<typeof formSchema>;
 
 const steps = [
   { title: 'Name', fields: ['first_name', 'last_name'] },
@@ -49,7 +48,7 @@ export default function OnboardingPatientPage() {
     trigger,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
-    resolver: zodResolver(step === 0 ? step1Schema : step2Schema),
+    resolver: zodResolver(formSchema),
     mode: 'onBlur',
   });
 

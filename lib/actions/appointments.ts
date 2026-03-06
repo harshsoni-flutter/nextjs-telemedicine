@@ -2,9 +2,22 @@
 
 import { createClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
-import type { AppointmentStatus } from '@/types/database';
+import type { AppointmentStatus, Provider } from '@/types/database';
 
-export async function getPatientAppointments() {
+export type PatientAppointmentRow = {
+  id: string;
+  patient_id: string;
+  provider_id: string;
+  scheduled_time: string;
+  status: AppointmentStatus;
+  reason_for_visit: string | null;
+  created_at: string;
+  provider?: Provider | Provider[] | null;
+};
+
+export async function getPatientAppointments(): Promise<
+  (Omit<PatientAppointmentRow, 'provider'> & { provider?: Provider | null })[]
+> {
   const supabase = await createClient();
   const {
     data: { user },
@@ -20,10 +33,10 @@ export async function getPatientAppointments() {
     )
     .eq('patient_id', user.id)
     .order('scheduled_time', { ascending: true });
-  const rows = data ?? [];
-  return rows.map((row: { provider?: unknown }) => ({
+  const rows = (data ?? []) as PatientAppointmentRow[];
+  return rows.map((row) => ({
     ...row,
-    provider: Array.isArray(row.provider) ? row.provider[0] : row.provider,
+    provider: Array.isArray(row.provider) ? row.provider[0] ?? null : row.provider ?? null,
   }));
 }
 

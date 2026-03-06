@@ -1,10 +1,9 @@
 'use server';
 
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
+import { createClient } from '@/lib/supabase/server';
 
 export async function getProviderAvailability(providerId: string) {
-  const supabase = await createServerComponentClient({ cookies });
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from('provider_availability')
     .select('*')
@@ -19,7 +18,7 @@ export async function getProviderAvailability(providerId: string) {
 }
 
 export async function getProviderSettings(providerId: string) {
-  const supabase = await createServerComponentClient({ cookies });
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from('provider_settings')
     .select('*')
@@ -33,7 +32,7 @@ export async function getProviderSettings(providerId: string) {
 }
 
 export async function getProviderBlockedTime(providerId: string) {
-  const supabase = await createServerComponentClient({ cookies });
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from('provider_blocked_time')
     .select('*')
@@ -55,7 +54,7 @@ export async function saveAvailabilitySlot(
   endTime: string,
   slotDurationMinutes: number = 15
 ) {
-  const supabase = await createServerComponentClient({ cookies });
+  const supabase = await createClient();
 
   // Check if slot already exists for this day
   const { data: existing } = await supabase
@@ -101,7 +100,7 @@ export async function saveAvailabilitySlot(
 }
 
 export async function toggleAvailability(availabilityId: string, isAvailable: boolean) {
-  const supabase = await createServerComponentClient({ cookies });
+  const supabase = await createClient();
   const { error } = await supabase
     .from('provider_availability')
     .update({
@@ -126,7 +125,7 @@ export async function saveProviderSettings(
     maxAdvanceBookingDays: number;
   }
 ) {
-  const supabase = await createServerComponentClient({ cookies });
+  const supabase = await createClient();
 
   const { error } = await supabase
     .from('provider_settings')
@@ -153,7 +152,7 @@ export async function addBlockedTime(
   reason: string = '',
   isVacation: boolean = false
 ) {
-  const supabase = await createServerComponentClient({ cookies });
+  const supabase = await createClient();
 
   const { error } = await supabase
     .from('provider_blocked_time')
@@ -172,7 +171,7 @@ export async function addBlockedTime(
 }
 
 export async function removeBlockedTime(blockedTimeId: string) {
-  const supabase = await createServerComponentClient({ cookies });
+  const supabase = await createClient();
 
   const { error } = await supabase
     .from('provider_blocked_time')
